@@ -1,9 +1,19 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  linux_trusty:
+    docker:
+      - images: circleci/mariadb:xenial
+  linux_bionic:
     docker:
       - image: circleci/mariadb:bionic
+
+jobs:
+  build:
+    parameters:
+      os:
+        type: executor
+    executor: << parameters.os >>
     steps:
       - checkout
       - run:
